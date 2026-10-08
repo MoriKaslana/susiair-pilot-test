@@ -1,3 +1,5 @@
 <template>
-  <div>Susi Air Pilot</div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
