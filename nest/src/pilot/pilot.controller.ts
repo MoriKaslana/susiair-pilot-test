@@ -1,6 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { PilotService } from './pilot.service';
 
 @Controller('pilot')
 export class PilotController {
-  // TODO: implement
+  constructor(private readonly pilot: PilotService) {}
+
+  @Get('me')
+  getMe() {
+    return this.pilot.getMe();
+  }
 }
