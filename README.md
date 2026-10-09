@@ -2,8 +2,6 @@
 
 Fullstack technical test: a **NestJS** REST API and a mobile-first **Nuxt 3** app. Pilots sign in, see their flight-hour limits with a rolling-sum chart, check document expiry, browse a monthly duty schedule and review their logbook.
 
-> Built with AI assistance (Claude and Zed's agent). I reviewed, tested and ran the code myself.
-
 ## Live demo
 
 | | |
