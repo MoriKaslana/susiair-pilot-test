@@ -105,3 +105,22 @@ Navy `#0E2138` · Brand red `#E63757` · Background `#F5F6F8` · Card `#FFFFFF` 
 - TypeScript strict, no `any` unless justified. No dead code, no leftover console.logs.
 - Add a few Jest unit tests for `rollingWindowBluffing` and the document-status logic (see expected numbers in GUIDE.md).
 - Keep the README honest: decisions, trade-offs, what you'd do with more time.
+
+
+## CURRENT STATE AND GUARDRAILS (read this first, it overrides anything above that conflicts)
+
+State:
+- The backend (/nest) is DONE and deployed at https://susiair-pilot-test.vercel.app. Do NOT edit /nest unless explicitly asked. The JSON data now lives in nest/src/data/files/ (compiled into the app), not nest/data.
+- The frontend is Nuxt 3 (nuxt@3.x), NOT Nuxt 4. pages/, components/, stores/, composables/, layouts/, middleware/, assets/, types/ are at the nuxt/ root. There is no app/ directory. Never upgrade nuxt, pinia, vue or vue-router.
+- Already built in /nuxt: login page, auth store (cookie token), composables/useApi.ts (useApi().request<T>(path, { query })), utils/api-error.ts, route middleware, layouts, bottom nav, SCSS tokens, API types in types/api.ts. Reuse them; do not rewrite them.
+- Local frontend runs on http://localhost:3000 against the live API (NUXT_PUBLIC_API_BASE in nuxt/.env).
+
+Guardrails:
+- NEVER run git commit, git push, or any git command that changes history. The user commits manually after review.
+- NEVER create or change vercel.json, Dockerfiles, CI files or any deployment config.
+- NEVER run npm install / npm update / npx nuxi init or add new dependencies. Only these packages exist: nuxt 3, vue, vue-router, pinia, @pinia/nuxt, lucide-vue-next, sass. If something seems to need a new package, stop and ask.
+- Only create or edit the files listed in the task. Do not touch other files.
+- Never use new Date() or Date.now() to decide "today" or whether a date is in the future. Use the "today" value and "isFuture" flags returned by the API. Formatting a given ISO date string for display is fine (parse it as UTC).
+- No hard-coded hex colors in components: use the SCSS variables from assets/scss/_tokens.scss (the one exception is base_color / legend colors that come from the API).
+- No mock data in the frontend. Everything comes from the API.
+- When finished: run "npx nuxi typecheck" and "npm run build" inside /nuxt, report the results, then STOP. Do not start any other task.
