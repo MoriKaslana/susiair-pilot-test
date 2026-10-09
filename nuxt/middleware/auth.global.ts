@@ -1,3 +1,5 @@
-export default defineNuxtRouteMiddleware(() => {
-  // TODO: implement auth redirect
+export default defineNuxtRouteMiddleware((to) => {
+  const auth = useAuthStore()
+  if (!auth.isAuthenticated && to.path !== '/login') return navigateTo('/login')
+  if (auth.isAuthenticated && to.path === '/login') return navigateTo('/')
 })

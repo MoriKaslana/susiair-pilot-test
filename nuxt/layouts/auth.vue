@@ -1,19 +1,25 @@
-<script setup lang="ts">
-// TODO: implement
-</script>
-
 <template>
   <div class="auth-shell">
-    <slot />
+    <div class="auth-inner">
+      <slot />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .auth-shell {
-  max-width: $shell-max-width;
   min-height: 100vh;
-  margin: 0 auto;
-  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
   background: $bg;
+}
+
+.auth-inner {
+  width: 100%;
+  max-width: $shell-max-width;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
