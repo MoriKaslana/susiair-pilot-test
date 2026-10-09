@@ -25,6 +25,8 @@ export default defineNuxtConfig({
     head: {
       title: 'Susi Air Pilot',
       link: [
+        { rel: 'icon', type: 'image/png', href: '/susiair.png' },
+        { rel: 'apple-touch-icon', href: '/susiair.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
