@@ -1,6 +1,4 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import {
   ChartBound,
   DailyHour,
@@ -12,9 +10,14 @@ import {
   ScheduleEntry,
   SchedulesFile,
 } from './data.types';
+import flightHoursJson = require('./files/mock-flight-hours.json');
+import documentsJson = require('./files/mock-documents.json');
+import schedulesJson = require('./files/mock-schedules.json');
 
 /**
- * Loads the three provided JSON files once at startup and keeps them in memory.
+ * Seeds the service from the three provided JSON files at startup and keeps
+ * them in memory. The files are imported (not read from disk at runtime) so
+ * they are compiled and bundled with the app on any host, including serverless.
  * Read-only: callers must not mutate what they get back.
  */
 @Injectable()
@@ -27,9 +30,9 @@ export class DataService implements OnModuleInit {
   private hoursMap!: Map<string, number>;
 
   onModuleInit(): void {
-    this.flightHoursFile = this.readJson<FlightHoursFile>('mock-flight-hours.json');
-    this.documentsFile = this.readJson<DocumentsFile>('mock-documents.json');
-    this.schedulesFile = this.readJson<SchedulesFile>('mock-schedules.json');
+    this.flightHoursFile = flightHoursJson as unknown as FlightHoursFile;
+    this.documentsFile = documentsJson as unknown as DocumentsFile;
+    this.schedulesFile = schedulesJson as unknown as SchedulesFile;
 
     this.hoursMap = new Map(
       this.flightHoursFile.flightHours.map((d) => [d.date, d.hours]),
@@ -40,15 +43,6 @@ export class DataService implements OnModuleInit {
         `${this.documentsFile.documents.length} documents, ` +
         `${this.schedulesFile.schedules.length} schedule entries`,
     );
-  }
-
-  private readJson<T>(fileName: string): T {
-    const path = join(process.cwd(), 'data', fileName);
-    try {
-      return JSON.parse(readFileSync(path, 'utf-8')) as T;
-    } catch (err) {
-      throw new Error(`Could not load ${path}: ${(err as Error).message}`);
-    }
   }
 
   get pilot(): FlightHoursFile['pilot'] {
